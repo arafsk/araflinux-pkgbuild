@@ -10,7 +10,7 @@ git config --global user.email "arafsos@protonmail.com"
 sudo git config --system core.editor nano
 git config --global push.default simple
 
-git remote set-url origin git@github.com:arafsk/$project
+git remote set-url origin https://github.com/arafsk/araflinux-pkgbuild
 
 echo "Everything set"
 

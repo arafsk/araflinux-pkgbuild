@@ -12,7 +12,11 @@ git commit -m "update"
 
 # Push the local files to github
 
-git push -u origin main
+if grep -q main .git/config; then
+	echo "Using main"
+		git push -u origin main
+fi
+
 
 echo
 tput setaf 6
