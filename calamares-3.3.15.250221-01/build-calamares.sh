@@ -1,7 +1,9 @@
 #!/bin/bash
 #https://wiki.archlinux.org/index.php/DeveloperWiki:Building_in_a_Clean_Chroot
 
-destiny="/home/erik/BUILDRA/buildra_repo/x86_64/"
+destiny="/home/araf/arafsk/araflinux/x86_64/"
+
+destiny=$destination1
 
 search1="calamares"
 search=$search1
