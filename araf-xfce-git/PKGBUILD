@@ -1,0 +1,18 @@
+# Maintainer: Araf_SK
+pkgname=araf-xfce-git
+pkgver=1.0
+pkgrel=1
+pkgdesc="Araf Linux XFCE default skel configuration"
+arch=('any')
+#url="https://github.com/arafsk/araf-xfce"
+license=('GPL3')
+makedepends=('git')
+depends=()
+provides=("${pkgname}")
+options=(!strip !emptydirs)
+#source=(${_pkgname}::"git+$url")
+#sha256sums=('SKIP')
+package() {
+  mkdir -p "$pkgdir/etc"
+  cp -r "etc/" "$pkgdir/"
+}

@@ -1,19 +1,19 @@
-# Maintainer: Erik Dubois <erik.dubois@gmail.com>
+# Maintainer: Araf SK
 pkgname=araflinux-calamares-config
 _pkgname=araflinux-calamares-config
 _destname1="/etc"
 _destnamescript="/usr/bin"
 pkgver=25.12
-pkgrel=04
+pkgrel=06
 pkgdesc="calamares config for araflinux"
 arch=('any')
-url="https://github.com/arafsk/${_pkgname}"
+url="https://github.com/arafsk/araflinux-calamares-config"
 license=('GPL3')
 makedepends=('git')
 depends=()
 provides=("${pkgname}")
 options=(!strip !emptydirs)
-source=(${_pkgname}::"git+$url")
+source=(araflinux-calamares-config::"git+https://github.com/arafsk/araflinux-calamares-config")
 sha256sums=('SKIP')
 install='readme.install'
 package() {
