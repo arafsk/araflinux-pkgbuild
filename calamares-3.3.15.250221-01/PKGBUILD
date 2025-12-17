@@ -1,19 +1,18 @@
 # Maintainer:
 # Contributor: Rustmilian Rustmilian@proton.me
 
-pkgname=calamares
+pkgname=araf-calamares
 _pkgname=calamares
-# change number in prepare as well
-pkgver=3.4.0
-pkgrel=1
+pkgver=3.3.15.250221
+#_pkgver=3.3.12
+_replacethisversion=3.3.14
+pkgrel=01
+_commit=21ea803
 pkgdesc='Distribution-independent installer framework'
 arch=('i686' 'x86_64')
 license=(GPL)
-url="https://codeberg.org/Calamares/calamares"
+url="https://github.com/calamares/calamares/"
 license=('LGPL')
-#'appstream-qt5' out as dependency and on iso
-provides=('calamares')
-
 depends=(
   'boost-libs'
   'ckbcomp'
@@ -22,6 +21,7 @@ depends=(
   'efibootmgr'
   'gptfdisk'
   'gtk-update-icon-cache'
+  'hwinfo'
   'icu'
   'kconfig'
   'kcoreaddons'
@@ -56,63 +56,67 @@ backup=('usr/share/calamares/modules/bootloader.conf'
         'usr/share/calamares/modules/initcpio.conf'
         'usr/share/calamares/modules/unpackfs.conf')
 
-_pkgsrc="$_pkgname"
-_pkgext="tar.gz"
-source=("$_pkgname-$pkgver.$_pkgext"::"$url/archive/v$pkgver.$_pkgext")
-sha256sums=('45de0214f4a16095374e2ed3982032c34f0f2c2104987089152e4b928dd0548f')
+source=($_pkgname::git+https://github.com/calamares/calamares#commit=$_commit
+  "calamares.desktop"
+  "calamares_polkit"
+  "49-nopasswd-calamares.rules")
+
+sha256sums=('e06f8d5d185120ce3c02ea94137eb51e84a76bb8f5b09be7e9f6e9129c0f81af'
+            'd6a5ce002c99586dfa0cb8621cad631f148dfd0d6d234c31643a63c585c546ee'
+            'c176b28007bd1c1f23d8dbb2c936fa54d0c01bacfb67290ddad597606c129df3'
+            '56d85ff6bf860b9559b8c9f997ad9b1002f3fccc782073760eca505e3bddd176')
 
 prepare() {
+  cd ${srcdir}/calamares
+  sed -i -e 's/etc\/sddm.conf/etc\/sddm.conf.d\/kde_settings.conf/' src/modules/displaymanager/main.py
 
-  cp -rv ../modules/* ${srcdir}/$_pkgname-${pkgver}-${pkgrel}/src/modules/
+  # change version
+  _ver="$(cat CMakeLists.txt | grep -m3 -e "  VERSION" | grep -o "[[:digit:]]*" | xargs | sed s'/ /./g')"
+  sed -i -e "s|CALAMARES_VERSION $_replacethisversion|CALAMARES_VERSION $pkgver|g" CMakeLists.txt
 
-  sed -i -e 's/"Install configuration files" OFF/"Install configuration files" ON/' "$srcdir/${_pkgname}-${pkgver}-${pkgrel}/CMakeLists.txt"
-  sed -i -e "s/desired_size = 512 \* 1024 \* 1024  \# 512MiB/desired_size = 512 \* 1024 \* 1024 \* 4  \# 2048MiB/" "$srcdir/${_pkgname}-${pkgver}-${pkgrel}/src/modules/fstab/main.py"
-
-  cd ${_pkgname}-${pkgver}-${pkgrel}
-  sed -i -e "s|CALAMARES_VERSION 3.3.14|CALAMARES_VERSION $pkgver-$pkgrel|g" CMakeLists.txt
-  #sed -i -e '/property real padding: 16;/d' "$srcdir/${_pkgname}-${pkgver}-${pkgrel}/src/qml/calamares-qt5/slideshow/Presentation.qml"
-  #sed -i -e '/property real padding: 16;/d' "$srcdir/${_pkgname}-${pkgver}-${pkgrel}/src/qml/calamares-qt6/slideshow/Presentation.qml"
 }
 
 build() {
-  cd $_pkgname-$pkgver-${pkgrel}
+  cd $_pkgname
 
-    cmake -S . -Bbuild \
-        -GNinja \
-        -DCMAKE_BUILD_TYPE=Release \
-        -DCMAKE_INSTALL_PREFIX=/usr \
-        -DCMAKE_INSTALL_LIBDIR=lib \
-        -DWITH_APPSTREAM=OFF \
-        -DWITH_PYBIND11=OFF \
-        -DWITH_QT6=ON \
-        -DSKIP_MODULES="dracut \
-            dracutlukscfg \
-            dummycpp \
-            dummyprocess \
-            dummypython \
-            dummypythonqt \
-            initramfs \
-            initramfscfg \
-            interactiveterminal \
-            keyboardq \
-            license \
-            localeq \
-            oemid \
-            packagechooserq \
-            partitionq \
-            services-openrc \
-            services-systemd \
-            summaryq \
-            tracking \
-            usersq \
-            welcomeq"
+  cmake -S . -Bbuild \
+      -GNinja \
+      -DCMAKE_BUILD_TYPE=Release \
+      -DCMAKE_INSTALL_PREFIX=/usr \
+      -DCMAKE_INSTALL_LIBDIR=lib \
+      -DWITH_APPSTREAM=OFF \
+      -DWITH_PYBIND11=OFF \
+      -DWITH_QT6=ON \
+      -DSKIP_MODULES="dracut \
+          dracutlukscfg \
+          dummycpp \
+          dummyprocess \
+          dummypython \
+          dummypythonqt \
+          initramfs \
+          initramfscfg \
+          interactiveterminal \
+          keyboardq \
+          license \
+          localeq \
+          oemid \
+          packagechooserq \
+          partitionq \
+          services-openrc \
+          summaryq \
+          tracking \
+          usersq \
+          welcomeq \
+          zfs \
+          zfshostid"
 
-    cmake --build build
+  cmake --build build
 }
-
 package() {
-  cd ${_pkgname}-${pkgver}-${pkgrel}/build
+  cd ${srcdir}/calamares/build
   DESTDIR="${pkgdir}" cmake --build . --target install
-  install -Dm644 "$srcdir/calamares.desktop" "$pkgdir/usr/share/applications/cal-araf.desktop"
-#  rm "$pkgdir/usr/share/applications/calamares.desktop"
+  install -Dm644 "${srcdir}/calamares.desktop" "$pkgdir/etc/xdg/autostart/calamares.desktop"
+  install -Dm755 "${srcdir}/calamares_polkit" "$pkgdir/usr/bin/calamares_polkit"
+  install -Dm644 "${srcdir}/49-nopasswd-calamares.rules" "$pkgdir/etc/polkit-1/rules.d/49-nopasswd-calamares.rules"
+  chmod 750 "$pkgdir"/etc/polkit-1/rules.d
 }
