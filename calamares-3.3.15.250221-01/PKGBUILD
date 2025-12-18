@@ -1,7 +1,7 @@
 # Maintainer:
 # Contributor: Rustmilian Rustmilian@proton.me
 
-pkgname=araf-calamares
+pkgname=calamares
 _pkgname=calamares
 pkgver=3.3.15.250221
 #_pkgver=3.3.12
@@ -62,9 +62,9 @@ source=($_pkgname::git+https://github.com/calamares/calamares#commit=$_commit
   "49-nopasswd-calamares.rules")
 
 sha256sums=('e06f8d5d185120ce3c02ea94137eb51e84a76bb8f5b09be7e9f6e9129c0f81af'
-            'd6a5ce002c99586dfa0cb8621cad631f148dfd0d6d234c31643a63c585c546ee'
-            'c176b28007bd1c1f23d8dbb2c936fa54d0c01bacfb67290ddad597606c129df3'
-            '56d85ff6bf860b9559b8c9f997ad9b1002f3fccc782073760eca505e3bddd176')
+            '622be74ec112855f30183157103485874a521a9dc30b456f6bc0a70c591e4023'
+            'a76b3a597ee031a00008707ae9e31122e48f3d2eeaa96318a5d924b8ec5d7843'
+            '5b1b5bf81d850c30486dcbe461a9ec2ca3afc15e9df1845d0529949dd6436763')
 
 prepare() {
   cd ${srcdir}/calamares

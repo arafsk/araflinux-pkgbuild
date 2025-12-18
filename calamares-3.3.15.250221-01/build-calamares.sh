@@ -1,7 +1,7 @@
 #!/bin/bash
 #https://wiki.archlinux.org/index.php/DeveloperWiki:Building_in_a_Clean_Chroot
 
-destiny="/home/araf/arafsk/araflinux/x86_64/"
+destiny="$HOME/github/arafsk/araflinux/x86_64/"
 
 destiny=$destination1
 
