@@ -24,7 +24,6 @@ sudo pacman -S --noconfirm --needed kconfig
 sudo pacman -S --noconfirm --needed kparts
 sudo pacman -S --noconfirm --needed hwinfo
 sudo pacman -S --noconfirm --needed kcoreaddons
-sudo pacman -S --noconfirm --needed plasma-framework5
 sudo pacman -S --noconfirm --needed qt5-xmlpatterns
 
 #yay -S --noconfirm pythonqt

@@ -29,7 +29,7 @@ echo "Updated PKGBUILD: pkgver=${NEW_VER}, pkgrel=${NEW_REL}"
 
 # CONFIGURATION
 CHROOT="$HOME/Documents/chroot"
-DEST_DIR="/home/araf/arafsk/araflinux/x86_64/"
+DEST_DIR="/home/arafsk/github/arafsk/araflinux/x86_64/"
 CHOICE=2  # Default to makepkg
 MAKEPKG_LIST=()  # Add package names here that should always use makepkg
 

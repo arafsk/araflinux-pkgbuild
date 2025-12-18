@@ -61,7 +61,8 @@ source=($_pkgname::git+https://github.com/calamares/calamares#commit=$_commit
   "calamares_polkit"
   "49-nopasswd-calamares.rules")
 
-sha256sums=('e06f8d5d185120ce3c02ea94137eb51e84a76bb8f5b09be7e9f6e9129c0f81af'
+sha256sums=('SKIP'
+	    'e06f8d5d185120ce3c02ea94137eb51e84a76bb8f5b09be7e9f6e9129c0f81af'
             '622be74ec112855f30183157103485874a521a9dc30b456f6bc0a70c591e4023'
             'a76b3a597ee031a00008707ae9e31122e48f3d2eeaa96318a5d924b8ec5d7843'
             '5b1b5bf81d850c30486dcbe461a9ec2ca3afc15e9df1845d0529949dd6436763')
