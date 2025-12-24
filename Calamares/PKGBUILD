@@ -1,43 +1,124 @@
-# Calamares Installer pkgbuild
+# Maintainer: Philip Müller <philm[at]manjaro[dog]org>
+# https://gitlab.manjaro.org/manjaro-arm/packages/extra/calamares/-/blob/master/PKGBUILD
+# https://gitlab.manjaro.org/packages/extra/calamares/-/blob/master/PKGBUILD
+# https://gitlab.manjaro.org/packages/extra/calamares-git/-/blob/master/PKGBUILD
 
 pkgname=calamares
-pkgver=3.3.14
-_pkgver=3.3.14
-pkgrel=4
+_pkgname=calamares
+pkgver=3.3.10.240906
+_pkgver=3.3.10
+_replaceversion=3.3.9
+pkgrel=01
+_commit=e945af0
 pkgdesc='Distribution-independent installer framework'
-arch=('x86_64')
+arch=('i686' 'x86_64')
 license=(GPL)
-url="https://codeberg.org/Calamares/calamares/releases"
+url="https://github.com/calamares/calamares/"
 license=('LGPL')
-depends=('cryptsetup' 'dmidecode' 'doxygen' 'gptfdisk' 'hwinfo' 'kconfig' 'kcoreaddons' 'ki18n' 'kparts' 'kpmcore' 'kservice' 'kwidgetsaddons' 'libatasmart' 'libplasma' 'libpwquality' 'polkit-qt6' 'pybind11' 'python' 'qt6-declarative' 'qt6-svg' 'qt6-tools' 'qt6-virtualkeyboard' 'qt6-webengine' 'rsync' 'solid' 'squashfs-tools' 'udisks2' 'upower' 'yaml-cpp')
-makedepends=( 'cmake' 'extra-cmake-modules' 'gawk' 'git' 'python-jsonschema' 'python-pyaml' 'python-unidecode')
+depends=(
+	'boost-libs'
+	'ckbcomp'
+	'cryptsetup'
+	'doxygen'
+	'efibootmgr'
+	'gptfdisk'
+	'gtk-update-icon-cache'
+	'hwinfo'
+	'icu'
+	'kconfig'
+	'kcoreaddons'
+	'kcrash'
+	'ki18n'
+	'kparts'
+	'kpmcore'
+	'kservice'
+	'kwidgetsaddons'
+	'libpwquality'
+	'mkinitcpio-openswap'
+	'polkit-qt6'
+	'rsync'
+	'qt6-declarative'
+	'solid'
+	'squashfs-tools'
+	'yaml-cpp'
+)
+makedepends=(
+	'boost'
+	'cmake'
+	'extra-cmake-modules'
+	'git'
+	'ninja'
+	'python-jsonschema'
+	'python-pyaml'
+	'python-unidecode'
+	'qt6-tools'
+)
+backup=('usr/share/calamares/modules/bootloader.conf'
+        'usr/share/calamares/modules/displaymanager.conf'
+        'usr/share/calamares/modules/initcpio.conf'
+        'usr/share/calamares/modules/unpackfs.conf')
 
-source=("$pkgname-$pkgver.tar.gz::https://codeberg.org/Calamares/calamares/releases/download/v$pkgver/calamares-$pkgver.tar.gz")
-sha256sums=('5547f80db067dea923ae693ba6bb88eb2b2eeac1da3ebec42fce453e31c290c0')
+source=($_pkgname::git+https://github.com/calamares/calamares#commit=$_commit
+	"calamares.desktop"
+	"calamares_polkit"
+	"49-nopasswd-calamares.rules")
+
+sha256sums=('f4df792264220b175ddd1ad9cdcb5cd2c3822928e6ba5755d1a5b4f9ca7cb1fd'
+            '9348b44d1866110689ea793441faf9fed4be9aa023c706502164553482818090'
+            'c176b28007bd1c1f23d8dbb2c936fa54d0c01bacfb67290ddad597606c129df3'
+            '242e095c700694ae2533f1689e6a2d9718d68d7f9824c0b9d169df98eee413d0')
+
+prepare() {
+	cd ${srcdir}/calamares
+	sed -i -e 's/etc\/sddm.conf/etc\/sddm.conf.d\/kde_settings.conf/' src/modules/displaymanager/main.py
+
+	# change version
+	_ver="$(cat CMakeLists.txt | grep -m3 -e "  VERSION" | grep -o "[[:digit:]]*" | xargs | sed s'/ /./g')"
+	sed -i -e "s|CALAMARES_VERSION $_replaceversion|CALAMARES_VERSION $_pkgver|g" CMakeLists.txt
+
+}
 
 build() {
-	cd ${srcdir}/calamares-${pkgver}
+	cd $_pkgname
 
-	mkdir -p build
-	cd build
-        cmake .. \
-              -DCMAKE_BUILD_TYPE=Release \
-              -DCMAKE_INSTALL_PREFIX=/usr \
-              -DCMAKE_INSTALL_LIBDIR=/usr/lib \
-              -DINSTALL_CONFIG=OFF \
-              -DWITH_QT6=ON \
-              -DWITH_PYBIND11=ON \
-              -DSKIP_MODULES="tracking webview interactiveterminal initramfs netinstall \
-                              initramfscfg dracut dracutlukscfg finishedq summaryq \
-                              dummyprocess dummypython dummycpp usersq oemid packagechooser \
-                              dummypythonqt services-openrc keyboardq zfs zfshostid \
-                              localeq plasmalnf welcomeq notesqml packagechooserq"
-        make
+  cmake -S . -Bbuild \
+      -GNinja \
+      -DCMAKE_BUILD_TYPE=Release \
+      -DCMAKE_INSTALL_PREFIX=/usr \
+      -DCMAKE_INSTALL_LIBDIR=lib \
+      -DWITH_APPSTREAM=OFF \
+      -DWITH_PYBIND11=OFF \
+      -DWITH_QT6=ON \
+      -DSKIP_MODULES="dracut \
+          dracutlukscfg \
+          dummycpp \
+          dummyprocess \
+          dummypython \
+          dummypythonqt \
+          initramfs \
+          initramfscfg \
+          interactiveterminal \
+          keyboardq \
+          license \
+          localeq \
+          oemid \
+          packagechooserq \
+          partitionq \
+          services-openrc \
+          summaryq \
+          tracking \
+          usersq \
+          welcomeq \
+          zfs \
+          zfshostid"
+
+  cmake --build build
 }
-
 package() {
-	cd ${srcdir}/calamares-${pkgver}/build
-	make DESTDIR="$pkgdir" install
-	install -Dm644 "../calamares.desktop" "$pkgdir/usr/share/applications/calamares.desktop"
+	cd ${srcdir}/calamares/build
+	DESTDIR="${pkgdir}" cmake --build . --target install
+	install -Dm644 "${srcdir}/calamares.desktop" "$pkgdir/etc/xdg/autostart/calamares.desktop"
+	install -Dm755 "${srcdir}/calamares_polkit" "$pkgdir/usr/bin/calamares_polkit"
+	install -Dm644 "${srcdir}/49-nopasswd-calamares.rules" "$pkgdir/etc/polkit-1/rules.d/49-nopasswd-calamares.rules"
+	chmod 750 "$pkgdir"/etc/polkit-1/rules.d
 }
-
