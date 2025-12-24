@@ -1,6 +1,6 @@
 #!/bin/bash
 
-destination1=$HOME"/arafsk/Documents/araflinux_repo/x86_64/"
+destination1="/home/arafsk/DATA/github/arafsk/arafsk_repo/x86_64/"
 
 destiny=$destination1
 
