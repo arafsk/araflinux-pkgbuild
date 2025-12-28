@@ -1,0 +1,26 @@
+pkgname=araf-xfce
+pkgver=1.0.1
+pkgrel=01
+pkgdesc="XFCE base configuration for Araf_OS."
+arch=('any')
+license=("custom")
+depends=('mugshot' 'acl' 'archlinux-keyring' 'attr' 'audit' 'autoconf' 'automake' 'base-devel' 'bash' 'binutils' 'bison' 'brotli' 'bzip2' 'ca-certificates' 'ca-certificates-mozilla' 'ca-certificates-utils' 'chaotic-keyring' 'chaotic-mirrorlist' 'coreutils' 'cryptsetup' 'curl' 'db' 'dbus' 'dbus-broker' 'dbus-broker-units' 'dbus-units' 'debugedit' 'device-mapper' 'diffutils' 'e2fsprogs' 'fakeroot' 'file' 'filesystem' 'findutils' 'flex' 'gawk' 'gc' 'gcc' 'gcc-libs' 'gdbm' 'gettext' 'git' 'glib2' 'glibc' 'gmp' 'gnupg' 'gnutls' 'gpgme' 'grep' 'groff' 'guile' 'gzip' 'hwdata' 'iana-etc' 'icu' 'jansson' 'kbd' 'keyutils' 'kmod' 'krb5' 'leancrypto' 'libarchive' 'libassuan' 'libcap' 'libcap' 'libelf' 'libevent' 'libffi' 'libgcrypt' 'libgpg-error' 'libidn2' 'libisl' 'libksba' 'libldap' 'libmpc' 'libnghttp2' 'libnghttp3' 'libnsl' 'libp11-kit' 'libpsl' 'libsasl' 'libseccomp' 'libsecret' 'libssh2' 'libsysprof-capture' 'libtasn1' 'libtirpc' 'libtool' 'libverto' 'libxcrypt' 'libxml2' 'linux-api-headers' 'lmdb' 'lz4' 'm4' 'make' 'mpfr' 'nettle' 'npth' 'openssl' 'p11-kit' 'pacman' 'pam' 'pambase' 'patch' 'pcre2' 'perl' 'perl-error' 'perl-mailtools' 'perl-timedate' 'pinentry' 'pkgconf' 'popt' 'readline' 'sed' 'shadow' 'sqlite' 'sudo' 'systemd' 'systemd-libs' 'tar' 'texinfo' 'tpm2-tss' 'tzdata' 'util-linux' 'util-linux-libs' 'which' 'xxhash' 'xz' 'zlib' 'zlib-ng' 'zstd' 'network-manager-applet' 'ristretto' 'xdg-user-dirs' 'xfce4-appfinder' 'xfce4-cpugraph-plugin' 'xfce4-panel' 'xfce4-power-manager' 'xfce4-pulseaudio-plugin' 'xfce4-screenshooter' 'xfce4-session' 'xfce4-settings' 'xfce4-taskmanager' 'xfce4-whiskermenu-plugin' 'xfdesktop' 'xfwm4' 'xorg-xrandr')
+source=("xfce-applications.menu"
+        "xfce4-keyboard-shortcuts.xml"
+        "$pkgname.tar.gz")
+sha512sums=('5653bb6a304f7c5c624857f0d7268b3ac21228f2586e654c7dd6fb94f518f7fe2dd0c6ec93ec1d5547acf7f636f93ca0cf6261e7caa2762ed9e9a88640957cc2'
+            'a532187402d8034bda78620dd9e23ec2c8b1a2868489ef5439893b0f3250a5bb5b8fbcea3a58531bcd7a6a09b8e084cb52a2236d6a779af6853178fda800cd7b'
+            '2eed621578b670859b8651cbba5169ec737279839e7231a03a9543a91f5413ea46997a8bafecb6264d363232ad148f545380dcccb1088ce634db615bbcba6e05')
+
+package() {
+  install -dm 755 "${pkgdir}/etc/skel/.config/xfce4/xfconf/xfce-perchannel-xml"
+  install -dm 755 "${pkgdir}/etc/xdg/menus/applications-merged"
+  install -dm 755 "${pkgdir}/usr/share/xfce4"
+  install -dm 755 "${pkgdir}/usr/share/themes"
+
+  install -Dm644 "${srcdir}/xfce4-keyboard-shortcuts.xml" "${pkgdir}/etc/skel/.config/xfce4/xfconf/xfce-perchannel-xml/"
+  install -Dm644 "${srcdir}/xfce-applications.menu" "${pkgdir}/etc/xdg/menus/applications-merged/xfce-applications.menu"
+  cp -a "$srcdir/Everblush-xfwm" "$pkgdir/usr/share/themes/"
+  cp -rf "$srcdir/xfce4" "$pkgdir/etc/skel/.config/"
+  touch "${pkgdir}/etc/skel/.flag-xfce-once"
+}
