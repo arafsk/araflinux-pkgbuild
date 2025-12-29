@@ -1,7 +1,6 @@
-# Araf_OS Calamares Installer pkgbuild
+#  Calamares Installer pkgbuild
 
 pkgname=calamares
-_pkgname=calamares
 pkgver=3.3.14
 _pkgver=3.3.14
 pkgrel=1
@@ -10,51 +9,12 @@ arch=('x86_64')
 license=(GPL)
 url="https://codeberg.org/Calamares/calamares/releases"
 license=('LGPL')
-depends=(
-	'cryptsetup'
-	'dmidecode'
-	'doxygen'
-	'gptfdisk'
-	'hwinfo'
-	'kconfig'
-	'kcoreaddons'
-	'ki18n'
-	'kparts'
-	'kpmcore'
-	'kservice'
-	'kwidgetsaddons'
-	'libatasmart'
-	'libplasma'
-	'libpwquality'
-	'polkit-qt6'
-	'pybind11'
-	'python'
-	'qt6-declarative'
-	'qt6-svg'
-	'qt6-tools'
-	'qt6-virtualkeyboard'
-	'qt6-webengine'
-	'rsync'
-	'solid'
-	'squashfs-tools'
-	'udisks2'
-	'upower'
-	'yaml-cpp'
-)
-makedepends=(
-	'cmake'
-	'extra-cmake-modules'
-	'gawk'
-	'git'
-	'python-jsonschema'
-	'python-pyaml'
-	'python-unidecode'
-)
+depends=('cryptsetup' 'dmidecode' 'doxygen' 'gptfdisk' 'hwinfo' 'kconfig' 'kcoreaddons' 'ki18n' 'kparts' 'kpmcore' 'kservice' 'kwidgetsaddons' 'libatasmart' 'libplasma' 'libpwquality' 'polkit-qt6' 'pybind11' 'python' 'qt6-declarative' 'qt6-svg' 'qt6-tools' 'qt6-virtualkeyboard' 'qt6-webengine' 'rsync' 'solid' 'squashfs-tools' 'udisks2' 'upower' 'yaml-cpp')
+makedepends=( 'cmake' 'extra-cmake-modules' 'gawk' 'git' 'python-jsonschema' 'python-pyaml' 'python-unidecode')
 
-source=("$pkgname-$pkgver.tar.gz::https://codeberg.org/Calamares/calamares/releases/download/v$pkgver/calamares-$pkgver.tar.gz")
-	"calamares.desktop"
-	"calamares_polkit")
-
+source=("$pkgname-$pkgver.tar.gz::https://codeberg.org/Calamares/calamares/releases/download/v$pkgver/calamares-$pkgver.tar.gz"
+		"calamares.desktop"
+		"calamares_polkit")
 sha256sums=('5547f80db067dea923ae693ba6bb88eb2b2eeac1da3ebec42fce453e31c290c0')
 
 build() {
@@ -82,5 +42,7 @@ package() {
 	make DESTDIR="$pkgdir" install
 	install -Dm644 "../calamares.desktop" "$pkgdir/etc/xdg/autostart/calamares.desktop"
 	install -Dm755 "../calamares_polkit" "$pkgdir/usr/bin/calamares_polkit"
+	install -Dm644 "../49-nopasswd-calamares.rules" "$pkgdir/etc/polkit-1/rules.d/49-nopasswd-calamares.rules"
+	chmod 750 "$pkgdir"/etc/polkit-1/rules.d
 }
 
