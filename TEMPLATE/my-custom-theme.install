@@ -1,0 +1,53 @@
+#!/usr/bin/bash
+# Save this as: my-custom-theme.install
+
+post_install() {
+    echo "================================================"
+    echo "  Custom Theme Installation Complete!"
+    echo "================================================"
+    echo ""
+    echo "Theme installed to: /usr/share/themes/"
+    echo "Icons installed to: /usr/share/icons/"
+    echo ""
+    echo "To apply for current user, run:"
+    echo "  cp /etc/skel/Desktop/myapp.desktop ~/Desktop/"
+    echo "  chmod +x ~/Desktop/myapp.desktop"
+    echo ""
+    echo "Update icon cache (run for each icon theme):"
+    echo "  gtk-update-icon-cache -f -t /usr/share/icons/YourIconTheme"
+    echo ""
+    echo "Apply GTK theme:"
+    echo "  gsettings set org.gnome.desktop.interface gtk-theme 'YourThemeName'"
+    echo "  gsettings set org.gnome.desktop.interface icon-theme 'YourIconName'"
+    echo ""
+    echo "Restart LightDM to apply display manager theme:"
+    echo "  sudo systemctl restart lightdm"
+    echo "================================================"
+    
+    # Auto-update icon cache if icon themes are present
+    for icon_dir in /usr/share/icons/*/; do
+        if [ -f "${icon_dir}index.theme" ]; then
+            gtk-update-icon-cache -f -t "$icon_dir" 2>/dev/null || true
+        fi
+    done
+}
+
+post_upgrade() {
+    post_install
+}
+
+pre_remove() {
+    echo "Removing custom theme package..."
+}
+
+post_remove() {
+    echo "================================================"
+    echo "  Custom Theme Removed"
+    echo "================================================"
+    echo ""
+    echo "Manual cleanup may be needed for:"
+    echo "  - User Desktop files in ~/Desktop/"
+    echo "  - Icon cache: gtk-update-icon-cache"
+    echo "  - GTK settings reset"
+    echo "================================================"
+}

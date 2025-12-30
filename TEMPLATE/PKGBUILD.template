@@ -1,0 +1,97 @@
+# Maintainer: Araf SK <arafsos@protonmail.com>
+
+pkgname=my-custom-theme
+pkgver=1.0.0
+pkgrel=1
+pkgdesc="Custom system theme with icons, themes, and configurations"
+arch=('any')
+url="https://github.com/arafsk/your-theme-repo"
+license=('GPL')
+depends=() # Add dependencies like 'gtk3' 'lightdm' etc.
+optdepends=(
+    'lightdm: for display manager theming'
+    'xfce4: for XFCE desktop environment'
+)
+source=(
+    # Option 1: If hosting files on GitHub
+    # "$pkgname-$pkgver.tar.gz::https://github.com/arafsk/repo/archive/v$pkgver.tar.gz"
+    
+    # Option 2: If files are local in same directory
+    "icons.tar.gz"
+    "themes.tar.gz"
+    "lightdm-custom.conf"
+    "myapp.desktop"
+)
+sha256sums=(
+    'SKIP'  # Replace with actual checksums or use 'SKIP' for local files
+    'SKIP'
+    'SKIP'
+    'SKIP'
+)
+# To generate checksums: makepkg -g
+
+backup=(
+    'etc/lightdm/lightdm.conf.d/custom-theme.conf'
+)
+
+package() {
+    cd "$srcdir"
+    
+    # Install Icons
+    install -dm755 "$pkgdir/usr/share/icons"
+    if [ -f "icons.tar.gz" ]; then
+        tar -xzf icons.tar.gz -C "$pkgdir/usr/share/icons/"
+    fi
+    # Or if you have icon folders directly:
+    # cp -r MyIconTheme "$pkgdir/usr/share/icons/"
+    
+    # Install Themes
+    install -dm755 "$pkgdir/usr/share/themes"
+    if [ -f "themes.tar.gz" ]; then
+        tar -xzf themes.tar.gz -C "$pkgdir/usr/share/themes/"
+    fi
+    # Or if you have theme folders directly:
+    # cp -r MyGtkTheme "$pkgdir/usr/share/themes/"
+    
+    # Install LightDM Configuration
+    install -dm755 "$pkgdir/etc/lightdm/lightdm.conf.d"
+    install -Dm644 "lightdm-custom.conf" "$pkgdir/etc/lightdm/lightdm.conf.d/custom-theme.conf"
+    
+    # Install Desktop file to /etc/skel (for new users)
+    install -dm755 "$pkgdir/etc/skel/Desktop"
+    install -Dm755 "myapp.desktop" "$pkgdir/etc/skel/Desktop/myapp.desktop"
+    
+    # Optional: Install to system applications
+    install -dm755 "$pkgdir/usr/share/applications"
+    install -Dm644 "myapp.desktop" "$pkgdir/usr/share/applications/myapp.desktop"
+}
+
+# Post-install message and actions
+post_install() {
+    echo "================================================"
+    echo "  Custom Theme Installation Complete!"
+    echo "================================================"
+    echo ""
+    echo "Theme installed to: /usr/share/themes/"
+    echo "Icons installed to: /usr/share/icons/"
+    echo ""
+    echo "To apply for current user, run:"
+    echo "  cp /etc/skel/Desktop/myapp.desktop ~/Desktop/"
+    echo ""
+    echo "Update icon cache:"
+    echo "  gtk-update-icon-cache -f -t /usr/share/icons/YourIconTheme"
+    echo ""
+    echo "Restart LightDM to apply display manager theme:"
+    echo "  sudo systemctl restart lightdm"
+    echo "================================================"
+}
+
+post_upgrade() {
+    post_install
+}
+
+post_remove() {
+    echo "Custom theme removed. Manual cleanup may be needed for:"
+    echo "  - User Desktop files in ~/Desktop/"
+    echo "  - Icon cache updates"
+}

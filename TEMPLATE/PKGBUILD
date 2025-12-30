@@ -1,0 +1,30 @@
+pkgname=araf-xfce-theme
+pkgver=1.0.0
+pkgrel=1
+pkgdesc="ArafOS Custom XFCE Theme Pack"
+arch=('any')
+depends=('gtk3' 'xfce4-settings')
+optdepends=('lightdm-gtk-greeter: for LightDM theming')
+install=$pkgname.install
+
+package() {
+    # Icons
+    install -dm755 "$pkgdir/usr/share/icons"
+    cp -r "$srcdir/../icons/ArafOS-Icons" "$pkgdir/usr/share/icons/"
+    
+    # Themes
+    install -dm755 "$pkgdir/usr/share/themes"
+    cp -r "$srcdir/../themes/ArafOS-Dark" "$pkgdir/usr/share/themes/"
+    
+    # Wallpapers
+    install -dm755 "$pkgdir/usr/share/backgrounds"
+    install -Dm644 "wallpaper.jpg" "$pkgdir/usr/share/backgrounds/arafos-wallpaper.jpg"
+    
+    # LightDM
+    install -dm755 "$pkgdir/etc/lightdm/lightdm-gtk-greeter.conf.d"
+    install -Dm644 "lightdm.conf" "$pkgdir/etc/lightdm/lightdm-gtk-greeter.conf.d/arafos.conf"
+    
+    # Desktop files
+    install -dm755 "$pkgdir/etc/skel/.config/autostart"
+    install -Dm644 "welcome.desktop" "$pkgdir/etc/skel/Desktop/welcome.desktop"
+}
