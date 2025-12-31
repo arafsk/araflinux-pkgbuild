@@ -14,7 +14,7 @@ git commit -m "update"
 
 if grep -q main .git/config; then
 	echo "Using main"
-		git push -u origin main
+		git push -f origin main
 fi
 
 
