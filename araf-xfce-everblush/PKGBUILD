@@ -1,0 +1,33 @@
+pkgname=araf-xfce-everblush
+pkgver=1.0.0
+pkgrel=1
+pkgdesc="XFCE base configuration for Araf."
+arch=('any')
+license=("custom")
+depends=('mugshot' 'network-manager-applet' 'ristretto' 'xdg-user-dirs' 'xfce4-appfinder' 'xfce4-cpugraph-plugin' 'xfce4-panel' 'xfce4-power-manager' 'xfce4-pulseaudio-plugin' 'xfce4-screenshooter' 'xfce4-session' 'xfce4-settings' 'xfce4-taskmanager' 'xfce4-whiskermenu-plugin' 'xfdesktop' 'xfwm4' 'xorg-xrandr')
+source=("araf-xfce-applications.menu"
+        "xfce-init.desktop"
+        "xfce-init"
+        "xfce4-keyboard-shortcuts.xml"
+        "$pkgname.tar.gz")
+sha512sums=('5653bb6a304f7c5c624857f0d7268b3ac21228f2586e654c7dd6fb94f518f7fe2dd0c6ec93ec1d5547acf7f636f93ca0cf6261e7caa2762ed9e9a88640957cc2'
+            '12c16f08a8d503a76277f984ef8493bcc8eb22bae52a414b0d23222b27f93c2a89612f678fcf334c0d8dc27a03ae12672e2ccc52b6850b4c0265161ead125589'
+            '9f2efaabf533b6e5964fe86f90c4bec53b84cce4faf45a5e68b2abadf6596c7312bd66a229134ff0b93836d5e7427ac01e9e90c9129f9358c717a6764a11693c'
+            'a532187402d8034bda78620dd9e23ec2c8b1a2868489ef5439893b0f3250a5bb5b8fbcea3a58531bcd7a6a09b8e084cb52a2236d6a779af6853178fda800cd7b'
+            '25752f693e234282a973e51806ec7fb9d71c3f587b12cae237b8139b90601c919da951cc7692e83154db441a47bdd0d2fcc18caa2616a85498cd779f4e868870')
+
+package() {
+  install -dm 755 "${pkgdir}/etc/skel/.config/xfce4/xfconf/xfce-perchannel-xml"
+  install -dm 755 "${pkgdir}/etc/xdg/autostart"
+  install -dm 755 "${pkgdir}/etc/xdg/menus/applications-merged"
+  install -dm 755 "${pkgdir}/usr/bin"
+  install -dm 755 "${pkgdir}/usr/share/xfce4"
+  install -dm 755 "${pkgdir}/usr/share/themes"
+
+  install -Dm644 "${srcdir}/xfce4-keyboard-shortcuts.xml" "${pkgdir}/etc/skel/.config/xfce4/xfconf/xfce-perchannel-xml/"
+  install -Dm644 "${srcdir}/xfce-init.desktop" "${pkgdir}/etc/xdg/autostart/"
+  install -Dm755 "${srcdir}/xfce-init" "${pkgdir}/usr/bin/"
+  install -Dm644 "${srcdir}/araf-xfce-applications.menu" "${pkgdir}/etc/xdg/menus/applications-merged/araf-xfce-applications.menu"
+  cp -a "$srcdir/Everblush-xfwm" "$pkgdir/usr/share/themes/"
+  touch "${pkgdir}/etc/skel/.flag-xfce-once"
+}

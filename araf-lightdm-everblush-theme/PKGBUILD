@@ -1,0 +1,39 @@
+pkgname=araf-lightdm-everblush-theme
+pkgver=r536.b981f112
+pkgrel=1
+pkgdesc='LightDM GTK theme for gtk-greeter with a Everblush look'
+arch=('any')
+license=('GPL-1.0-or-later')
+depends=('lightdm' 'lightdm-gtk-greeter' 'lightdm-gtk-greeter-settings' 'ttf-jetbrains-mono-nerd')
+conflicts=()
+install='araf-lightdm-everblush-theme.install'
+source=("git+https://github.com/alvatip/Nordzy-icon"
+        "mechanic-keyboard-lightdm.png"
+        "$pkgname.tar.gz")
+sha512sums=('SKIP'
+            'f39efd5289beacf4e5bd0165c057aaa4904a034a7c3bbc8a563f244e5bcf534f2e902b1b1d24c461e6f569223df6905ac2ab95555e3fded4bc3d93bdff945599'
+            'c3f0fa3f0816b2886c33247f381a71979ce9f39ef6969320c0845bc00b02c43d4eb5865c88ffeaa84392138388f66f527cd1142007022192872b5b9cc3c1d153')
+
+pkgver() {
+    cd Nordzy-icon
+
+    printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)" 
+}
+
+package() {
+    install -dm755 "${pkgdir}/usr/share/themes"
+    mv "${srcdir}/Everblush-lightdm" "${pkgdir}/usr/share/themes/"
+
+    cd Nordzy-icon
+
+    # Install icon theme
+    cd "${srcdir}/Nordzy-icon"
+    install -dm755 "${pkgdir}/usr/share/icons"
+    ./install.sh -d "${pkgdir}/usr/share/icons" -t cyan -c dark
+    mv "${pkgdir}/usr/share/icons/Nordzy-cyan-dark" "${pkgdir}/usr/share/icons/Nordzy-cyan-dark-lightdm"
+
+    cd "${srcdir}"
+    install -dm 755 "$pkgdir/usr/share/backgrounds/araf"
+
+    install -Dm 644 "mechanic-keyboard-lightdm.png" "$pkgdir/usr/share/backgrounds/araf/"
+}

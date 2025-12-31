@@ -1,0 +1,24 @@
+#!/bin/bash
+
+chmod 750 /etc/sudoers.d
+chmod 750 /etc/polkit-1/rules.d
+chgrp polkitd /etc/polkit-1/rules.d
+chmod -v 750 /root
+
+rm -vf /etc/sudoers.d/g_wheel
+rm -vf /etc/sddm.conf.d/autologin.conf
+rm -vf /etc/polkit-1/rules.d/49-nopasswd_global.rules
+rm -vf /root/{.automated_script.sh,.zlogin}
+
+#sed -i 's/GRUB_DISTRIBUTOR=.*/GRUB_DISTRIBUTOR="Araf_OS"/' /etc/default/grub
+#sed -i 's/${GRUB_DISTRIBUTOR} Linux/${GRUB_DISTRIBUTOR}/' /etc/grub.d/10_linux
+
+# Remove calamares-desktop from Desktop
+#rm -rf /home/Araf/Desktop/calamares.desktop
+
+# Copy skel/.config in /root
+mv /etc/arafos-release /etc/lsb-release 
+cp -r /etc/skel/.config /root/
+rm -rf /etc/xdg/autostart/calamares.desktop
+rm -rf /usr/local/bin/{final,livecd-sound,Installation_guide,calamares_polkit}
+rm -rf /etc/calamares/

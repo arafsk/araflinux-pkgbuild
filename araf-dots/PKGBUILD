@@ -1,0 +1,18 @@
+# Maintainer: araf
+pkgname=araf-dots
+pkgver=1.0
+pkgrel=1
+pkgdesc="Systemwide Dotfiles for Araf."
+arch=('any')
+license=("custom")
+depends=('bash')
+source=("$pkgname.tar.gz")
+sha512sums=('75ec4b89be819aef2b9c10c98a01c1ca3a442b63ad518c91b3747a28f9325df0e848930259535303583769811a5e7e9c0656db3f5b43467e970a7ca587ec7683')
+options=(!strip !emptydirs)
+
+package() {
+  install -dm 755 "${pkgdir}/"
+  install -dm 755 "${pkgdir}/"
+  cp -arf "$srcdir/usr" "$pkgdir/"
+  cp -arf "$srcdir/etc" "$pkgdir/"
+}

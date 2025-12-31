@@ -1,0 +1,15 @@
+pkgname=araf-xfce-refined
+pkgver=1.0.0
+pkgrel=1
+pkgdesc="XFCE Refined configuration for Araf."
+arch=('any')
+license=("custom")
+depends=('araf-xfce-everblush' 'nautilus')
+source=("$pkgname.tar.gz")
+sha512sums=('928b210fb8e6db81532526978d9f93e0e9970c8dcc6d67250bcc09c2e3e39e68ddb49350f2d9583b235c8ae556cba7b48fa1502fd5bc5e5f9adc970899493a87')
+
+package() {
+  mkdir -p "${pkgdir}/etc/skel/.config"
+
+  cp -rf "${srcdir}/xfce4" "${pkgdir}/etc/skel/.config/"
+}
