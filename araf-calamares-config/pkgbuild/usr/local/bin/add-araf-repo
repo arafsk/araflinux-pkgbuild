@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+echo '
+#[arafsk_repo] 
+#SigLevel = Optional TrustAll 
+#Server = https://arafsk.github.io/arafsk_repo/$arch
+' | sudo tee --append /etc/pacman.conf
+sudo pacman -Syyu

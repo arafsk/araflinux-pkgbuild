@@ -1,10 +1,11 @@
-pkgname=araf-calamares
+pkgname=calamares
 _pkgname=calamares
-pkgver=3.3.14.r25.g95aa33f
+# change number in prepare as well
+pkgver=3.3.14.r81.g55f0c9e  # placeholder; will be auto-generated
 pkgrel=1
 pkgdesc='Distribution-independent installer framework - latest git version'
 arch=('i686' 'x86_64')
-url="https://github.com/calamares/calamares"
+url="https://codeberg.org/erikdubois/calamares"
 license=('LGPL')
 conflicts=('calamares-next' 'calamares-git')
 provides=('calamares')
@@ -34,7 +35,6 @@ depends=(
 	'squashfs-tools'
 	'yaml-cpp'
 )
-
 makedepends=(
 	'boost'
 	'cmake'
@@ -52,17 +52,14 @@ backup=('usr/share/calamares/modules/bootloader.conf'
         'usr/share/calamares/modules/initcpio.conf'
         'usr/share/calamares/modules/unpackfs.conf')
 
-source=("calamares::git+https://github.com/calamares/calamares"
-	"araf-calamares.desktop"
-	"calamares-_polkit"
-	"49-nopasswd-calamares.rules"
+source=("calamares::git+https://codeberg.org/erikdubois/calamares"
+        "cal-araf.desktop"
+        "calamares_polkit"
 	"calamares-wrapper")
-
-sha512sums=('SKIP'
-            '50d01c82eb7e95d94254633ac8906b9cd19504f37dcee2b4b2e91487d5676b5f711fccbf41b0a0e701cfa81aceaa0283f4b4eab3dc9b6fdf48e784e5656624b9'
-            'e6ee5f1e6cfd9e1168b5d1cf3e3e74411fdd43f8b62339d1d2f71a613751fd67aeb6b0fc44b21a44270c7363298bac7e66de2d1754b3ca2e6aad759691a8fa8d'
-            '721fd8eaed5ab65e1d097609a01d2451a47c13e9ae61182a4f4eb9f0e33252f648d499693fd86c60ffc9a3877a0a9007ad016c8b9dca751e4cb60b56b322b04f'
-            '34d189f66989c8eb7b6f2ebcd35864942ba1011982f0b18e13bd2ec516cba6f6d7625b499a034f9bc246e03f687207d45071d359403e61646efda2269ae8894c')
+sha256sums=('SKIP'
+            'SKIP'
+            'SKIP'
+            'SKIP')
 
 prepare() {
 	cp -rv ../modules/* "$srcdir/$_pkgname/src/modules/"
@@ -117,13 +114,12 @@ package() {
 	cd "$srcdir/$_pkgname/build"
 	DESTDIR="$pkgdir" cmake --install .
 
-	install -Dm644 "$srcdir/araf-calamares.desktop" "$pkgdir/usr/share/applications/araf-calamares.desktop"
-	install -Dm755 "$srcdir/araf-calamares.desktop" "$pkgdir/home/liveuser/Desktop/araf-calamares.desktop"
-	chmod +x "$pkgdir/home/liveuser/Desktop/araf-calamares.desktop"
+	install -Dm644 "$srcdir/cal-araf.desktop" "$pkgdir/usr/share/applications/cal-araf.desktop"
+	install -Dm755 "$srcdir/cal-araf.desktop" "$pkgdir/home/liveuser/Desktop/cal-araf.desktop"
+	chmod +x "$pkgdir/home/liveuser/Desktop/cal-araf.desktop"
 
 	install -Dm644 "$srcdir/calamares-wrapper" "$pkgdir/usr/local/bin/calamares-wrapper"
 	chmod +x "$pkgdir/usr/local/bin/calamares-wrapper"
 	install -Dm755 "$srcdir/calamares_polkit" "$pkgdir/usr/bin/calamares_polkit"
-	install -Dm644 "${srcdir}/49-nopasswd-calamares.rules" "$pkgdir/etc/polkit-1/rules.d/49-nopasswd-calamares.rules"
 	rm "$pkgdir/usr/share/applications/calamares.desktop"
 }
