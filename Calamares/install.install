@@ -1,0 +1,53 @@
+#!/bin/bash
+set -e
+##################################################################################################################
+#
+#   DO NOT JUST RUN THIS. EXAMINE AND JUDGE. RUN AT YOUR OWN RISK.
+#
+##################################################################################################################
+
+#software from 'normal' repositories
+sudo pacman -S --noconfirm --needed boost-libs
+sudo pacman -S --noconfirm --needed cryptsetup
+sudo pacman -S --noconfirm --needed doxygen
+sudo pacman -S --noconfirm --needed efibootmgr
+sudo pacman -S --noconfirm --needed gptfdisk
+sudo pacman -S --noconfirm --needed gtk-update-icon-cache
+sudo pacman -S --noconfirm --needed icu
+sudo pacman -S --noconfirm --needed kconfig
+sudo pacman -S --noconfirm --needed kcoreaddons
+sudo pacman -S --noconfirm --needed kcrash
+sudo pacman -S --noconfirm --needed ki18n
+sudo pacman -S --noconfirm --needed kparts
+sudo pacman -S --noconfirm --needed kpmcore
+sudo pacman -S --noconfirm --needed kservice
+sudo pacman -S --noconfirm --needed kwidgetsaddons
+sudo pacman -S --noconfirm --needed libpwquality
+sudo pacman -S --noconfirm --needed polkit-qt6
+sudo pacman -S --noconfirm --needed rsync
+sudo pacman -S --noconfirm --needed qt6-declarative
+sudo pacman -S --noconfirm --needed solid
+sudo pacman -S --noconfirm --needed squashfs-tools
+sudo pacman -S --noconfirm --needed yaml-cpp
+sudo pacman -S --noconfirm --needed boost
+sudo pacman -S --noconfirm --needed cmake
+sudo pacman -S --noconfirm --needed extra-cmake-modules
+sudo pacman -S --noconfirm --needed git
+sudo pacman -S --noconfirm --needed fakeroot
+sudo pacman -S --noconfirm --needed ninja
+sudo pacman -S --noconfirm --needed python-jsonschema
+sudo pacman -S --noconfirm --needed python-pyaml
+sudo pacman -S --noconfirm --needed python-unidecode
+sudo pacman -S --noconfirm --needed qt6-tools
+
+#yay -S --noconfirm pythonqt
+yay -S --noconfirm --needed mkinitcpio-openswap
+yay -S --noconfirm --needed ckbcomp
+
+echo "################################################################"
+echo "###################     software installed      ################"
+echo "################################################################"
+
+#ki18n' 'solid' 'yaml-cpp' 'kpmcore>=3.1.0' 'mkinitcpio-openswap'
+#         'boost-libs' 'hwinfo' 'qt5-svg' 'polkit-qt5' 'gtk-update-icon-cache' 'pythonqt>=3.2')
+#makedepends=('extra-cmake-modules' 'qt5-tools' 'qt5-translations' 'git' 'boost')

@@ -11,7 +11,7 @@ options=(!strip !emptydirs)
 source=("araf-xfce-applications.menu"
         "$pkgname.tar.gz")
 sha512sums=('5653bb6a304f7c5c624857f0d7268b3ac21228f2586e654c7dd6fb94f518f7fe2dd0c6ec93ec1d5547acf7f636f93ca0cf6261e7caa2762ed9e9a88640957cc2'
-            '6012433b206a83e67ad22433fe41c1e1ea1c125da4f933b32b4e8692474245aa49197a4f929b39cc0fa0e76f1b7b19dec3732928a272fa251b7d14e6515f1400')
+            '06f1cefbccbf3563257fd56890285f969845a1643f7a9450ee2bc10707a862a53ffc5d7c989b51619261aea913376e25dfaee6e11317f7a4d7e6f62912b1ac8d')
 
 package() {
   install -dm 755 "${pkgdir}/etc/skel"
