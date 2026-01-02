@@ -1,17 +1,17 @@
 [Settings]
-gtk-theme-name=Qogir-Dark
-gtk-icon-theme-name=tela-circle-dark
+gtk-theme-name=Arc-Dark
+gtk-icon-theme-name=Surfin-Arc
 gtk-font-name=Noto Sans Regular 11
 gtk-menu-images=0
 gtk-button-images=0
 gtk-toolbar-style=GTK_TOOLBAR_BOTH_HORIZ
-gtk-cursor-theme-name=Vimix Cursors - White
+gtk-cursor-theme-name=Colloid-dark cursors
 gtk-cursor-theme-size=0
 gtk-toolbar-icon-size=GTK_ICON_SIZE_LARGE_TOOLBAR
 gtk-enable-event-sounds=1
 gtk-enable-input-feedback-sounds=1
 gtk-xft-antialias=1
 gtk-xft-hinting=1
-gtk-xft-hintstyle=hintfull
-gtk-xft-rgba=none
+gtk-xft-hintstyle=hintslight
+gtk-xft-rgba=rgb
 gtk-modules=canberra-gtk-module:gail:atk-bridge

@@ -7,7 +7,7 @@ arch=('any')
 license=("custom")
 depends=('bash')
 source=("$pkgname.tar.gz")
-sha512sums=('75ec4b89be819aef2b9c10c98a01c1ca3a442b63ad518c91b3747a28f9325df0e848930259535303583769811a5e7e9c0656db3f5b43467e970a7ca587ec7683')
+sha512sums=('9304be0d2b929c0500878ce402b691bf29ce5cce639de22433f3ca6657ddffbf0529f979c97103f78379eff8a4a396d4151137c14fbb7a2e0b1b4d40122760b4')
 options=(!strip !emptydirs)
 
 package() {

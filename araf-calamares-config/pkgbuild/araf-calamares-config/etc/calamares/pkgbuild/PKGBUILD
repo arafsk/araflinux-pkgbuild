@@ -1,0 +1,120 @@
+# Calamares Installer pkgbuild
+
+pkgname=calamares
+pkgver=3.3.14
+_pkgver=3.3.14
+pkgrel=5
+pkgdesc='Distribution-independent installer framework'
+arch=('x86_64')
+license=(GPL)
+url="https://codeberg.org/Calamares/calamares/releases"
+license=('LGPL')
+depends=(
+	'boost-libs'
+	'ckbcomp'
+	'cryptsetup'
+	'doxygen'
+	'efibootmgr'
+	'gptfdisk'
+	'gtk-update-icon-cache'
+	'icu'
+	'kconfig'
+	'kcoreaddons'
+	'kcrash'
+	'ki18n'
+	'kparts'
+	'kpmcore'
+	'kservice'
+	'kwidgetsaddons'
+	'libpwquality'
+	'mkinitcpio-openswap'
+	'polkit-qt6'
+	'rsync'
+	'qt6-declarative'
+	'solid'
+	'squashfs-tools'
+	'yaml-cpp'
+)
+makedepends=(
+	'boost'
+	'cmake'
+	'extra-cmake-modules'
+	'git'
+	'fakeroot'
+	'ninja'
+	'python-jsonschema'
+	'python-pyaml'
+	'python-unidecode'
+	'qt6-tools'
+)
+backup=('usr/share/calamares/modules/bootloader.conf'
+        'usr/share/calamares/modules/displaymanager.conf'
+        'usr/share/calamares/modules/initcpio.conf'
+        'usr/share/calamares/modules/unpackfs.conf')
+
+source=("$pkgname-$pkgver.tar.gz::https://codeberg.org/Calamares/calamares/releases/download/v$pkgver/calamares-$pkgver.tar.gz"
+        "cal-araf.desktop"
+        "calamares_polkit"
+	"calamares-wrapper")
+sha256sums=('SKIP'
+            'SKIP'
+            'SKIP'
+            'SKIP')
+
+prepare() {
+	cp -rv ../modules/* "$srcdir/$pkgname-$pkgver/src/modules/"
+
+	sed -i -e 's/"Install configuration files" OFF/"Install configuration files" ON/' "$srcdir/$pkgname-$pkgver/CMakeLists.txt"
+	sed -i -e "s/desired_size = 512 \* 1024 \* 1024  \# 512MiB/desired_size = 512 \* 1024 \* 1024 \* 16  \# 8589MiB/" "$srcdir/$pkgname-$pkgver/src/modules/fstab/main.py"
+}
+
+build() {
+	cd "$srcdir/$pkgname-$pkgver"
+
+	cmake -S . -B build \
+		-G Ninja \
+		-DCMAKE_BUILD_RPATH_USE_ORIGIN=ON \
+		-DCMAKE_SKIP_RPATH=ON \
+		-DCMAKE_BUILD_TYPE=Release \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_INSTALL_LIBDIR=lib \
+		-DWITH_APPSTREAM=OFF \
+		-DWITH_PYBIND11=OFF \
+		-DWITH_QT6=ON \
+		-DSKIP_MODULES="dracut \
+			dracutlukscfg \
+			dummycpp \
+			dummyprocess \
+			dummypython \
+			dummypythonqt \
+			initramfs \
+			initramfscfg \
+			interactiveterminal \
+			keyboardq \
+			license \
+			localeq \
+			oemid \
+			packagechooserq \
+			partitionq \
+			services-openrc \
+			summaryq \
+			tracking \
+			usersq \
+			welcomeq"
+
+	cmake --build build
+}
+
+package() {
+	cd "$srcdir/$pkgname-$pkgver/build"
+	DESTDIR="$pkgdir" cmake --install .
+
+	install -Dm644 "$srcdir/cal-araf.desktop" "$pkgdir/usr/share/applications/cal-araf.desktop"
+	install -Dm755 "$srcdir/cal-araf.desktop" "$pkgdir/home/liveuser/Desktop/cal-araf.desktop"
+	chmod +x "$pkgdir/home/liveuser/Desktop/cal-araf.desktop"
+
+	install -Dm644 "$srcdir/calamares-wrapper" "$pkgdir/usr/local/bin/calamares-wrapper"
+	chmod +x "$pkgdir/usr/local/bin/calamares-wrapper"
+	install -Dm755 "$srcdir/calamares_polkit" "$pkgdir/usr/bin/calamares_polkit"
+	rm "$pkgdir/usr/share/applications/calamares.desktop"
+}

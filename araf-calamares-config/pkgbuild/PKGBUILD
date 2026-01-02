@@ -1,16 +1,25 @@
 pkgname=araf-calamares-config
-pkgver=1.0
-pkgrel=2
-pkgdesc="ArafOS Custom calamares config"
+_pkgname=araf-calamares-config
+_destname1="/etc"
+_destname2="/usr"
+_destnamescript="/usr/bin"
+pkgver=1.0.0
+pkgrel=02
+pkgdesc="calamares config"
 arch=('any')
-depends=()
 options=(!strip !emptydirs)
 source=("$pkgname.tar.gz")
-#optdepends=('lightdm-gtk-greeter: for LightDM theming')
-sha256sums=('b8f3131c06c8198cc169e5f806b11cf41e41f1b17eb3b54b9238ab4e0b47420a')
+license=('GPL3')
+makedepends=()
+depends=()
+conflicts=()
+sha256sums=('968714b4aae619041e474911e267c5a35b5412cb774915d9fdb4e764e8e15801')
 install='readme.install'
-
 package() {
-    cp -r "${srcdir}/etc" "${pkgdir}/"
-    cp -r "${srcdir}/usr" "${pkgdir}/"
+    mkdir -p "${pkgdir}${_destname1}"
+    cp -r "${srcdir}/${_pkgname}/${_destname1}"* "${pkgdir}"
+    mkdir -p "${pkgdir}${_destname2}"
+    cp -r "${srcdir}/${_pkgname}/${_destname2}"* "${pkgdir}"
+    mkdir -p "${pkgdir}${_destnamescript}"
+    cp -r "${srcdir}/${_pkgname}/etc/calamares/pkgbuild/build-calamares" "${pkgdir}${_destnamescript}"
 }

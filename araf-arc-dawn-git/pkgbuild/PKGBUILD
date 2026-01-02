@@ -1,25 +1,18 @@
 # Maintainer: araf
-pkgname=araf-arc-dawn-git
-_pkgname=araf-arc-dawn
+pkgname=araf-arc-dawn
 _destname1="/usr/share/themes/"
-_licensedir="/usr/share/araf/licenses/"
-pkgver=1.0.0
-pkgrel=02
-pkgdesc="Arc themes created for araf"
+pkgver=1.0
+pkgrel=01
+pkgdesc="Arc themes created for Araf"
 arch=('any')
-url="https://github.com/arafsk/araf-arc-dawn"
-license=('GPL3')
-makedepends=('git')
+license=('custom')
+makedepends=()
 depends=()
 replaces=()
-provides=("${pkgname}")
 options=(!strip !emptydirs)
-source=(${_pkgname}::"git+https://github.com/arafsk/${_pkgname}.git")
-sha256sums=('SKIP')
+source=("$pkgname.tar.gz")
+sha256sums=('04db26d59adfdd893a3b513e2493c31202a0b29da0ac2dcfde4b2df7f95d38ae')
 package() {
-	install -dm755 ${pkgdir}${_licensedir}${_pkgname}
-	install -m644  ${srcdir}/${_pkgname}/LICENSE ${pkgdir}${_licensedir}${_pkgname}
-
 	install -dm755 ${pkgdir}${_destname1}
-	cp -r  ${srcdir}/${_pkgname}${_destname1}* ${pkgdir}${_destname1}
+	cp -r  ${srcdir}/${pkgname}${_destname1}* ${pkgdir}${_destname1}
 }
