@@ -45,13 +45,13 @@ fi
 #######################
 #######_Alias_#########
 #######################
-# ls
-alias l='ls -lh'
-alias ll='ls -lh'
-alias la='ls -A'
-alias lm='ls -m'
-alias lr='ls -R'
-alias lg='ls -l --group-directories-first'
+#list
+alias ls='ls --color=auto'
+alias la='ls -a'
+alias ll='ls -alFh'
+alias l='ls'
+alias l.="ls -A | egrep '^\.'"
+alias listdir="ls -d */ > list"
 
 # git
 alias gcl='git clone --depth 1'
