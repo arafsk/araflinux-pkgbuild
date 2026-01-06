@@ -1,0 +1,11 @@
+pkgname=araf-refind-config
+pkgver=1.0
+pkgrel=1
+pkgdesc="rEFInd configuration tuned for NVIDIA systems"
+arch=('any')
+depends=('refind')
+conflicts=('grub')
+
+package() {
+    cp -r rootfs/* "$pkgdir/"
+}

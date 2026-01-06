@@ -1,0 +1,19 @@
+# Maintainer: Araf_SK
+pkgname=araf-sddm-simplicity
+_destname1="/usr"
+pkgver=1.0
+pkgrel=3
+pkgdesc="Simplicity theme from isseigx on gitlab"
+arch=('any')
+license=('custom')
+depends=('qt5-quickcontrols2' 'qt5-quickcontrols')
+makedepends=()
+install=readme.install
+makedepends=()
+options=(!strip !emptydirs)
+replaces=()
+source=("$pkgname.tar.gz")
+sha256sums=('a9bf4287bdf4138d09a0a097a3a1a607553b1ec6a00087ad933c20039f221bc5')
+package() {
+  cp -r ${srcdir}/${pkgname}/${_destname1} ${pkgdir}
+}

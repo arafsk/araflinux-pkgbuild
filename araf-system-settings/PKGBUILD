@@ -1,0 +1,16 @@
+pkgname=araf-system-settings
+pkgver=1.0
+pkgrel=2
+pkgdesc="System-wide NVIDIA + NVMe + performance tuning + rEFInd config for Arch"
+arch=('any')
+depends=('linux-lts' 'linux-lts-headers' 'nvidia-open-dkms' 'nvidia-utils' 'nvidia-settings' 'refind')
+optdepends=('amd-ucode' 'intel-ucode')
+source=("$pkgname.tar.gz")
+install=araf-system-settings.install
+
+package() {
+    cp -r "$srcdir/boot" "$pkgdir/"
+    cp -r "$srcdir/etc" "$pkgdir/"
+    cp -r "$srcdir/usr" "$pkgdir/"
+}
+sha256sums=('3139a3e36a1ee5f0a772a5a0c87a272782e8b2df00694ad40c35fa44cc41b869')

@@ -7,7 +7,7 @@ arch=$(grep "^arch=" PKGBUILD | awk -F"'" '{print $2}')
 
 #NEED ONLY TO EDIT  sourcefiles VARIABLE
 
-sourcefiles="araf-arc-dawn"
+sourcefiles="etc usr"
 
 #sed -i -e '/^sha256/d' -e '/^sha512/d' PKGBUILD
 

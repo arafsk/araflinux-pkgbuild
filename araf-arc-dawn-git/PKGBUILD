@@ -1,0 +1,22 @@
+# Maintainer: Araf_SK
+pkgname=araf-arc-dawn
+_destname1="/usr/share/themes/"
+_licensedir="/usr/share/araf/licenses/"
+pkgver=1.0
+pkgrel=3
+pkgdesc="Arc themes created for Araf_SK"
+arch=('any')
+license=('GPL3')
+makedepends=()
+depends=()
+replaces=()
+options=(!strip !emptydirs)
+source=("$pkgname.tar.gz")
+sha256sums=('d1452334b6dbffc8d784250d0234566f548587765338b7a003c4c8f426427973')
+package() {
+	install -dm755 ${pkgdir}${_licensedir}${_pkgname}
+	install -m644  ${srcdir}/${_pkgname}/LICENSE ${pkgdir}${_licensedir}${_pkgname}
+
+	install -dm755 ${pkgdir}${_destname1}
+	cp -r  ${srcdir}/${_pkgname}${_destname1}* ${pkgdir}${_destname1}
+}

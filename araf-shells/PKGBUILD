@@ -1,0 +1,18 @@
+# Maintainer: Araf_SK
+pkgname=araf-shells
+_destname1="/etc/skel/"
+pkgver=1.0
+pkgrel=3
+pkgdesc="configs for bash, zsh and fish"
+arch=('any')
+license=('custom')
+makedepends=('git' 'most')
+depends=('bash')
+options=(!strip !emptydirs)
+source=("$pkgname.tar.gz")
+sha256sums=('5dc17322c3fdf11e6566d6d421ccfc12a9db21709bdd28db1471f462595f4139')
+install='readme.install'
+package() {
+    install -dm755 "${pkgdir}${_destname1}"
+    cp -a "${srcdir}/${pkgname}${_destname1}".* "${pkgdir}${_destname1}"
+}

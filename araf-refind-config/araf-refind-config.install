@@ -1,0 +1,49 @@
+post_install() {
+    echo ":: Araf rEFInd automation starting..."
+
+    # 1. Detect CPU vendor
+    CPU_VENDOR=$(lscpu | awk -F: '/Vendor ID/ {print $2}' | xargs)
+
+    if [[ "$CPU_VENDOR" == "AuthenticAMD" ]]; then
+        echo "Detected AMD CPU"
+        pacman -S --noconfirm amd-ucode
+        pacman -Rns --noconfirm intel-ucode 2>/dev/null || true
+        UCODE="amd-ucode.img"
+    elif [[ "$CPU_VENDOR" == "GenuineIntel" ]]; then
+        echo "Detected Intel CPU"
+        pacman -S --noconfirm intel-ucode
+        pacman -Rns --noconfirm amd-ucode 2>/dev/null || true
+        UCODE="intel-ucode.img"
+    else
+        echo "Unknown CPU vendor, skipping ucode handling"
+        UCODE=""
+    fi
+
+    # 2. Detect root filesystem UUID
+    ROOT_UUID=$(findmnt -no UUID /)
+
+    if [[ -z "$ROOT_UUID" ]]; then
+        echo "ERROR: Could not detect root UUID"
+        return
+    fi
+
+    # 3. Generate final rEFInd config
+    TEMPLATE="/boot/EFI/refind/conf.d/araf-linux.conf.template"
+    TARGET="/boot/EFI/refind/conf.d/araf-linux.conf"
+
+    if [[ -f "$TEMPLATE" ]]; then
+        sed "s/@ROOT_UUID@/$ROOT_UUID/" "$TEMPLATE" > "$TARGET"
+        rm -f "$TEMPLATE"
+    fi
+
+    # 4. Inject ucode into initrd line (if applicable)
+    if [[ -n "$UCODE" ]]; then
+        sed -i "s|initrd   /initramfs-linux-lts.img|initrd   /$UCODE\n    initrd   /initramfs-linux-lts.img|" "$TARGET"
+    fi
+
+    echo ":: rEFInd configuration generated successfully"
+}
+
+post_upgrade() {
+    post_install
+}
