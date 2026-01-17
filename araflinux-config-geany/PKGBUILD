@@ -1,0 +1,20 @@
+# Maintainer: Munna_SK
+
+pkgname=araflinux-config-geany
+pkgver=2.1.0
+pkgrel=1
+pkgdesc="Geany IDE color-schemes and config for Araflinux"
+arch=('any')
+#url="https://github.com/arafsk/araflinux-pkgbuild"
+license=('custom')
+options=(!strip !emptydirs)
+
+prepare() {
+	cp -af ../files/. "$srcdir"
+}
+
+package() {
+	local _cfgdir="$pkgdir"/etc/skel/.config
+	mkdir -p "$_cfgdir"
+	cp -r "$srcdir"/* "$_cfgdir"
+}

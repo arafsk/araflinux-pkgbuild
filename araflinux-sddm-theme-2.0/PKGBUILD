@@ -1,0 +1,20 @@
+# Maintainer: Munna_SK
+
+pkgname=araflinux-sddm-theme
+_destname1="/usr"
+pkgver=2.0
+pkgrel=3
+pkgdesc="Simplie theme from isseigx on gitlab"
+arch=('any')
+license=('custom')
+depends=('qt5-quickcontrols2' 'qt5-quickcontrols')
+makedepends=()
+install=readme.install
+makedepends=()
+options=(!strip !emptydirs)
+replaces=()
+source=("$pkgname.tar.gz")
+sha256sums=('280b61a379121bae5796938ac8a78d3d6a0db706ad32f2e160d813995f5df4d8')
+package() {
+  cp -r ${srcdir}/${pkgname}/${_destname1} ${pkgdir}
+}

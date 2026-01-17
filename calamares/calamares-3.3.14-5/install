@@ -1,0 +1,75 @@
+#!/bin/bash
+set -e
+##################################################################################################################
+#
+#   DO NOT JUST RUN THIS. EXAMINE AND JUDGE. RUN AT YOUR OWN RISK.
+#
+##################################################################################################################
+
+#software from 'normal' repositories
+sudo pacman -S --noconfirm --needed boost
+sudo pacman -S --noconfirm --needed boost-libs
+sudo pacman -S --noconfirm --needed breeze-icons
+sudo pacman -S --noconfirm --needed clang
+sudo pacman -S --noconfirm --needed dmidecode
+sudo pacman -S --noconfirm --needed doxygen
+sudo pacman -S --noconfirm --needed extra-cmake-modules
+sudo pacman -S --noconfirm --needed hwinfo
+sudo pacman -S --noconfirm --needed karchive
+sudo pacman -S --noconfirm --needed kbookmarks
+sudo pacman -S --noconfirm --needed kcodecs
+sudo pacman -S --noconfirm --needed kcompletion
+sudo pacman -S --noconfirm --needed kconfig
+sudo pacman -S --noconfirm --needed kconfigwidgets
+sudo pacman -S --noconfirm --needed kcoreaddons
+sudo pacman -S --noconfirm --needed kglobalaccel
+sudo pacman -S --noconfirm --needed kiconthemes
+sudo pacman -S --noconfirm --needed kio
+sudo pacman -S --noconfirm --needed kirigami
+sudo pacman -S --noconfirm --needed kitemviews
+sudo pacman -S --noconfirm --needed kjobwidgets
+sudo pacman -S --noconfirm --needed kpackage
+sudo pacman -S --noconfirm --needed kparts
+sudo pacman -S --noconfirm --needed kpmcore
+sudo pacman -S --noconfirm --needed kservice
+sudo pacman -S --noconfirm --needed ksvg
+sudo pacman -S --noconfirm --needed kxmlgui
+sudo pacman -S --noconfirm --needed libplasma
+sudo pacman -S --noconfirm --needed media-player-info
+sudo pacman -S --noconfirm --needed plasma-activities
+sudo pacman -S --noconfirm --needed polkit-qt6
+sudo pacman -S --noconfirm --needed pybind11
+sudo pacman -S --noconfirm --needed qt5-tools
+sudo pacman -S --noconfirm --needed qt5-translations
+sudo pacman -S --noconfirm --needed qt5-xmlpatterns
+sudo pacman -S --noconfirm --needed qt6-multimedia-ffmpeg
+sudo pacman -S --noconfirm --needed qt6-positioning
+sudo pacman -S --noconfirm --needed qt6-virtualkeyboard
+sudo pacman -S --noconfirm --needed qt6-webchannel
+sudo pacman -S --noconfirm --needed qt6-webengine
+sudo pacman -S --noconfirm --needed re2
+sudo pacman -S --noconfirm --needed solid
+sudo pacman -S --noconfirm --needed yaml-cpp
+
+#makedepends
+sudo pacman -S --noconfirm --needed boost
+sudo pacman -S --noconfirm --needed cmake
+sudo pacman -S --noconfirm --needed extra-cmake-modules
+sudo pacman -S --noconfirm --needed gawk
+sudo pacman -S --noconfirm --needed git
+sudo pacman -S --noconfirm --needed fakeroot
+sudo pacman -S --noconfirm --needed python-jsonschema
+sudo pacman -S --noconfirm --needed python-pyaml
+sudo pacman -S --noconfirm --needed python-unidecode
+
+#yay -S --noconfirm pythonqt
+yay -S --noconfirm --needed mkinitcpio-openswap
+yay -S --noconfirm --needed ckbcomp
+
+echo "################################################################"
+echo "###################     software installed      ################"
+echo "################################################################"
+
+#ki18n' 'solid' 'yaml-cpp' 'kpmcore>=3.1.0' 'mkinitcpio-openswap'
+#         'boost-libs' 'hwinfo' 'qt5-svg' 'polkit-qt5' 'gtk-update-icon-cache' 'pythonqt>=3.2')
+#makedepends=('extra-cmake-modules' 'qt5-tools' 'qt5-translations' 'git' 'boost')

@@ -1,0 +1,17 @@
+post_install() {
+    echo ":: araflinux-system-settings post-install for linux starting now..."
+    
+    # 1. Reload udev for NVMe rules
+    udevadm control --reload
+    udevadm trigger
+    systemctl daemon-reexec
+   
+    # 2. Regenerate initramfs for linux-lts
+    mkinitcpio -P
+
+    echo ":: Install completed!"
+}
+
+post_upgrade() {
+    post_install
+}

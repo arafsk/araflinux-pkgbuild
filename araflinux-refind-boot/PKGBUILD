@@ -1,0 +1,16 @@
+pkgname=araflinux-refind-boot
+pkgver=2.1.0
+pkgrel=1
+pkgdesc="rEFInd bootloader config for Araflinux"
+arch=('any')
+depends=('amd-ucode' 'intel-ucode' 'refind')
+#options=(!strip !emptydirs)
+source=("$pkgname.tar.gz")
+sha256sums=('23eb02933ec412907efde92623702d929bb4da2d7cb2d1255259e4e3d8ced9b6')
+#optdepends=('')
+install="$pkgname.install"
+
+package() {
+  install -d "$pkgdir/"
+  cp -a --no-preserve=ownership $srcdir/$pkgname/* "$pkgdir/"
+}

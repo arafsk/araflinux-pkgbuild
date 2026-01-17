@@ -1,0 +1,12 @@
+## Copyright (C) 2020 Munna_SK <arafsos@protonmail.com>
+
+[Trigger]
+Operation = Install
+Operation = Upgrade
+Type = Package
+Target = araflinux-hooks
+
+[Action]
+Description = Updating Araflinux System Configurations...
+When = PostTransaction
+Exec = /usr/bin/araflinux-hooks-runner

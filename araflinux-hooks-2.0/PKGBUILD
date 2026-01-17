@@ -1,0 +1,59 @@
+# Maintainer: Munna_SK <arafsos@protonmail.com>
+
+pkgname="araflinux-hooks"
+pkgver=2.0
+pkgrel=3
+pkgdesc='Pacman hooks for Araflinux filesystem'
+arch=('any')
+#url="https://github.com/arafsk/araflinux-pkgbuild"
+license=('GPL3')
+source=(
+		'araflinux-hooks.hook'
+		'araflinux-release.hook'
+		'araflinux-lsb-release.hook'
+		'araflinux-pixmaps.hook'
+		'araflinux-reboot-required.hook'
+		'araflinux-hooks-runner'
+		'araflinux-reboot-required'
+		'araflinux.png'
+		'araflinux.svg'
+		'araflinux-logo.png'
+		'araflinux-logo.svg'
+		'araflinux-user.png'
+		'araflinux-user.svg'
+)
+sha512sums=('b9895e7d715ea37f719e2a4c27d7210f5f2e95bcb1d83350cc51d7f59b5e5cd31d4cbb706c07d6bfc351aed13fa10ca0024020b410c124ac5228fa50f676db19'
+            '6a6a7c591e57d406817236eb9526e0122e8f1f4a3ccbd20c0140ba3125317dff945275256ca4859e77b9d1cfdb2abb0d584f531e3e6e8cf96f43b5fdaf3ed4ff'
+            'c91fce2c73e5c2ba736fa37da3306de1e17d4c80c9a884e489458f46ed7e068ee0d85b926838fb5dfba90e03512b8b8da12a752b35fdf480a0aef447e9ed1a2e'
+            '180234d9a14f4173e492060fba6a08a71b05c9e496b28e6b144b30054b4f66f1df1f3cb90244f3976d13c45ac4aff7dd284cd96a6c29549f0aece2d189259d02'
+            '20f6dca7ef4816de0fe59f6cbf32a50e24138e050f0bc3f711a0cfa13e5fca4bec82951efd9e14b0a13d21383aa0a58dc6c5b4b5b5ce9c7d48ed5c8f9dbfb642'
+            'd97086771d00fc6c980959bc801fef7584322cf89973409e9065e4ce9ea5eeccc82379d42ec80517e630f1a0141cd5d707b8cd8f35f48a932b7f7bd2b3dc2315'
+            '71a0f8696606bea0664e8f6e43ac179e7080e02cdaa0f43b2c47f7341027babe526716b19d010b61184537899fe8c145e72243c995e94880f455271bc7f3894e'
+            '33049ce0fafbaf389410c098ecbce7dd135ca5c45edb1288ae3c266e45d486fd0eb3a129fbbaa18584d5f92cfcbafb08ac91b134aa8f5ed4aad40a7da69de90a'
+            '33049ce0fafbaf389410c098ecbce7dd135ca5c45edb1288ae3c266e45d486fd0eb3a129fbbaa18584d5f92cfcbafb08ac91b134aa8f5ed4aad40a7da69de90a'
+            '33049ce0fafbaf389410c098ecbce7dd135ca5c45edb1288ae3c266e45d486fd0eb3a129fbbaa18584d5f92cfcbafb08ac91b134aa8f5ed4aad40a7da69de90a'
+            '33049ce0fafbaf389410c098ecbce7dd135ca5c45edb1288ae3c266e45d486fd0eb3a129fbbaa18584d5f92cfcbafb08ac91b134aa8f5ed4aad40a7da69de90a'
+            '33049ce0fafbaf389410c098ecbce7dd135ca5c45edb1288ae3c266e45d486fd0eb3a129fbbaa18584d5f92cfcbafb08ac91b134aa8f5ed4aad40a7da69de90a'
+            '33049ce0fafbaf389410c098ecbce7dd135ca5c45edb1288ae3c266e45d486fd0eb3a129fbbaa18584d5f92cfcbafb08ac91b134aa8f5ed4aad40a7da69de90a')
+
+package() {
+	local hooks="$pkgdir"/usr/share/libalpm/hooks
+	local pixmaps="$pkgdir"/usr/share/pixmaps
+	local bin="$pkgdir"/usr/bin
+	
+	install -Dm 644 araflinux-hooks.hook           	"$hooks"/araflinux-hooks.hook
+	install -Dm 644 araflinux-lsb-release.hook      "$hooks"/araflinux-lsb-release.hook
+	install -Dm 644 araflinux-release.hook       "$hooks"/araflinux-release.hook
+	install -Dm 644 araflinux-reboot-required.hook  "$hooks"/araflinux-reboot-required.hook
+	install -Dm 644 araflinux-pixmaps.hook  		"$hooks"/araflinux-pixmaps.hook
+			    
+	install -Dm 755 araflinux-hooks-runner         	"$bin"/araflinux-hooks-runner
+	install -Dm 755 araflinux-reboot-required       "$bin"/araflinux-reboot-required
+			    
+	install -Dm 644 araflinux.png       			"$pixmaps"/araflinux.png
+	install -Dm 644 araflinux.svg       			"$pixmaps"/araflinux.svg
+	install -Dm 644 araflinux-logo.png       		"$pixmaps"/araflinux-logo.png
+	install -Dm 644 araflinux-logo.svg       		"$pixmaps"/araflinux-logo.svg
+	install -Dm 644 araflinux-user.png       		"$pixmaps"/araflinux-user.png
+	install -Dm 644 araflinux-user.svg       		"$pixmaps"/araflinux-user.svg
+}

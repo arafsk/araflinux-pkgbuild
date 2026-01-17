@@ -1,0 +1,17 @@
+pkgname=araflinux-system-settings
+pkgver=2.1.0
+pkgrel=1
+pkgdesc="System-wide NVIDIA + NVMe + performance tuning Araflinux"
+arch=('any')
+depends=('linux' 'linux-headers' 'nvidia-open' 'nvidia-utils' 'nvidia-settings')
+optdepends=('amd-ucode' 'intel-ucode')
+options=(!strip !emptydirs)
+source=("$pkgname.tar.gz")
+#optdepends=('')
+install=$pkgname.install
+
+package() {
+  install -d "$pkgdir/"
+  cp -a --no-preserve=ownership $srcdir/$pkgname/* "$pkgdir/"
+}
+sha256sums=('41da01a6dd498c4bffdd1073e829fac281fa8374cee0efecaa8d86ef22005f8f')

@@ -1,0 +1,58 @@
+#https://github.com/calamares/calamares/releases
+#change prepare number too
+
+pkgname=calamares
+pkgver=3.3.14
+_pkgver=3.3.14
+pkgrel=5
+pkgdesc='Distribution-independent installer framework'
+arch=('x86_64')
+license=(GPL)
+url="https://codeberg.org/Calamares/calamares/releases"
+license=('LGPL')
+depends=('cryptsetup' 'dmidecode' 'doxygen' 'gptfdisk' 'hwinfo' 'kconfig' 'kcoreaddons' 'ki18n' 'kparts' 'kpmcore' 'kservice' 'kwidgetsaddons' 'libatasmart' 'libplasma' 'libpwquality' 'polkit-qt6' 'pybind11' 'python' 'qt6-declarative' 'qt6-svg' 'qt6-tools' 'qt6-virtualkeyboard' 'qt6-webengine' 'rsync' 'solid' 'squashfs-tools' 'udisks2' 'upower' 'yaml-cpp')
+makedepends=( 'cmake' 'extra-cmake-modules' 'gawk' 'git' 'python-jsonschema' 'python-pyaml' 'python-unidecode')
+source=("$pkgname-$pkgver.tar.gz::https://codeberg.org/Calamares/calamares/releases/download/v$pkgver/calamares-$pkgver.tar.gz"
+        "Araflinux-Installer.desktop"
+        "calamares_polkit"
+        "calamares-wrapper")
+
+sha256sums=('5547f80db067dea923ae693ba6bb88eb2b2eeac1da3ebec42fce453e31c290c0'
+            '5073e166888d21243481177b7990818bc475dc7105bf318e1f286f292dc17617'
+            '966c5f0834039dc6a7529e75f70417ba2510b1e643ffb49fd25855ce9dc244b4'
+            'e4c9b9601020f2362311b9776de1aa363f6ee5d1d78a4b171ba2630644819f5b')
+
+build() {
+        cd ${srcdir}/calamares-${pkgver}
+
+        mkdir -p build
+        cd build
+        cmake .. \
+              -DCMAKE_BUILD_TYPE=Release \
+              -DCMAKE_INSTALL_PREFIX=/usr \
+              -DCMAKE_INSTALL_LIBDIR=/usr/lib \
+              -DINSTALL_CONFIG=OFF \
+              -DWITH_QT6=ON \
+              -DWITH_PYBIND11=ON \
+              -DSKIP_MODULES="tracking webview interactiveterminal initramfs netinstall \
+                              initramfscfg dracut dracutlukscfg finishedq summaryq \
+                              dummyprocess dummypython dummycpp usersq oemid packagechooser \
+                              dummypythonqt services-openrc keyboardq zfs zfshostid \
+                              localeq plasmalnf welcomeq notesqml packagechooserq"
+        make
+}
+
+package() {
+        cd ${srcdir}/calamares-${pkgver}/build
+        make DESTDIR="$pkgdir" install
+
+	install -Dm644 "$srcdir/Araflinux-Installer.desktop" "$pkgdir/usr/share/applications/Araflinux-Installer.desktop"
+	install -Dm755 "$srcdir/Araflinux-Installer.desktop" "$pkgdir/home/liveuser/Desktop/Araflinux-Installer.desktop"
+	chmod +x "$pkgdir/home/liveuser/Desktop/Araflinux-Installer.desktop"
+
+	install -Dm644 "$srcdir/calamares-wrapper" "$pkgdir/usr/local/bin/calamares-wrapper"
+	chmod +x "$pkgdir/usr/local/bin/calamares-wrapper"
+	install -Dm755 "$srcdir/calamares_polkit" "$pkgdir/usr/bin/calamares_polkit"
+	rm "$pkgdir/usr/share/applications/calamares.desktop"
+}
+

@@ -1,0 +1,12 @@
+## Copyright (C) 2020 Munna_SK <arafsos@protonmail.com>
+
+[Trigger]
+Operation = Install
+Operation = Upgrade
+Type = Package
+Target = lsb-release
+
+[Action]
+Description = Updating Araflinux LSB Configurations...
+When = PostTransaction
+Exec = /usr/bin/araflinux-hooks-runner lsb-release

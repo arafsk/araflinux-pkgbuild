@@ -100,7 +100,7 @@ alias replace='sh $HOME/.bin/replace'
 alias chris='curl -fsSL https://christitus.com/linux | sh'
 alias rsync='sudo rsync -avh --partial --progress --info=progress2'
 alias rsync2='sudo rsync -aAXHv --info=progress2'
-alias nvidia-smi='nvidia-smi --query-gpu=temperature.gpu,power.draw,utilization.gpu,utilization.memory --format=csv -l 1'
+alias nvidia-smii='nvidia-smi --query-gpu=temperature.gpu,power.draw,utilization.gpu,utilization.memory --format=csv -l 1'
 
 # check vulnerabilities microcode
 alias microcode='grep . /sys/devices/system/cpu/vulnerabilities/*'

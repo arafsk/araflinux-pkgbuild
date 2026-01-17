@@ -1,0 +1,7 @@
+menuentry "Araflinux" {
+    icon     /EFI/refind/icons/os_arch.png
+    loader   /vmlinuz-linux
+    initrd   /initramfs-linux.img
+    options  "root=UUID=@ROOT_UUID@ rw quiet loglevel=3 nowatchdog \
+              nvidia_drm.modeset=1 pcie_aspm=off mitigations=off"
+}

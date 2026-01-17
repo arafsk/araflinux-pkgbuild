@@ -1,0 +1,74 @@
+#!/bin/bash
+
+## Copyright (C) 2020 Munna_SK <arafsos@protonmail.com>
+##
+## Run `araflinux-hooks` related commands.
+
+fix_lsb_release() {
+    local file=/etc/lsb-release
+
+    if [[ -z "`grep "^DISTRIB_RELEASE=" $file`" ]] ; then
+        # add missing DISTRIB_RELEASE=
+        echo "DISTRIB_RELEASE=rolling" >> "$file"
+    fi
+    sed -i "$file" \
+        -e 's|^DISTRIB_ID=.*$|DISTRIB_ID=araflinux|' \
+        -e 's|^DISTRIB_RELEASE=.*$|DISTRIB_RELEASE=rolling|' \
+        -e 's|^DISTRIB_DESCRIPTION=.*$|DISTRIB_DESCRIPTION=\"Araflinux\"|'
+}
+
+fix_os_release() {
+    local file=/usr/lib/os-release
+
+    sed -i "$file" \
+        -e 's|^NAME=.*$|NAME=\"Araflinux\"|' \
+        -e 's|^PRETTY_NAME=.*$|PRETTY_NAME=\"Araflinux\"|' \
+        -e 's|^ID=.*$|ID=araflinux|' \
+        -e 's|^ID_LIKE=.*$|ID_LIKE=arch|' \
+        -e 's|^BUILD_ID=.*$|BUILD_ID=rolling|' \
+        -e 's|^HOME_URL=.*$|HOME_URL=\"https://araflinux.io\"|' \
+        -e 's|^DOCUMENTATION_URL=.*$|DOCUMENTATION_URL=\"https://wiki.araflinux.io\"|' \
+        -e 's|^SUPPORT_URL=.*$|SUPPORT_URL=\"https://www.reddit.com/r/araflinux\"|' \
+        -e 's|^BUG_REPORT_URL=.*$|BUG_REPORT_URL=\"https://github.com/araflinux/araflinux/issues\"|' \
+        -e 's|^LOGO=.*$|LOGO=araflinux|'
+
+    if [ -z "$(grep "^ID_LIKE=" $file)" ] && [ -n "$(grep "^ID=" $file)" ] ; then
+        # add missing ID_LIKE=
+        sed -i $file -e '/^ID=/a \ID_LIKE=arch'
+    fi
+
+	# fix issue file
+    sed -i 's|Arch Linux|Araflinux|g' /etc/issue /usr/share/factory/etc/issue
+}
+
+fix_pixmaps() {
+	## Remove Arch Linux artworks
+	imgs=('archlinux-logo.png'
+		  'archlinux-logo.svg'
+		  'archlinux-logo-text.svg'
+		  'archlinux-logo-text-dark.svg'
+		  'archlinux.png'
+		  'archlinux.svg')
+	
+	for img in "${imgs[@]}"; do
+		if [[ -e /usr/share/pixmaps/"$img" ]]; then 
+			rm -rf /usr/share/pixmaps/"$img"
+		fi
+	done	
+}
+
+main() {
+    local hookname="$1"
+
+    case "$hookname" in
+        os-release)  fix_os_release ;;
+        lsb-release) fix_lsb_release ;;
+        fix-pixmaps) fix_pixmaps ;;
+        "")          fix_os_release
+                     fix_lsb_release
+                     fix_pixmaps
+                     ;;
+    esac
+}
+
+main "$@"
