@@ -1,0 +1,18 @@
+# Maintainer: Araf_SK
+
+pkgname=araflinux-xfce-settings
+pkgdesc='Araflinux XFCE settings'
+pkgver="1.0.0"
+pkgrel=1
+arch=('any')
+license=('CUSTOM')
+source=("araflinux-xfce-settings.tar.gz")
+sha256sums=('ac4b40834d21c6a2306f064fb40178d0b98a2121096ca40bfb32121c16fd4ba0')
+install=araflinux-xfce-settings.install
+
+package() {
+  install -d "$pkgdir/etc"
+  cp -rf "$srcdir/$pkgname/etc" "$pkgdir"
+  install -d "$pkgdir/usr"
+  cp -rf "$srcdir/$pkgname/usr" "$pkgdir"
+}
